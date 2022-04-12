@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('trailer_urls', function (Blueprint $table) {
+        Schema::create('genre_movie', function (Blueprint $table) {
             $table->id();
-            $table->string('web_name');
-            $table->string('web_url');
-            $table->integer('trailerable_id');
-            $table->string('trailerable_type');
-            $table->timestamps();
+            $table->foreignId('genre_id')->constraint();
+            $table->foreignId('movie_id')->constraint();
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trailer_urls');
+        Schema::dropIfExists('genre_movie');
     }
 };
