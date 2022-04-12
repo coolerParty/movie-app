@@ -1,0 +1,3 @@
+<div>
+    Genre Index
+</div>

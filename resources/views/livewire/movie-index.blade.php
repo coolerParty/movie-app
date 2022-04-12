@@ -1,0 +1,3 @@
+<div>
+    Movie Index
+</div>

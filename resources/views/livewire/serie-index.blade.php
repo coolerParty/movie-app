@@ -1,0 +1,3 @@
+<div>
+    Serie index
+</div>
