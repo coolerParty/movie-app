@@ -33,6 +33,7 @@ class TagIndex extends Component
         ]);
         $this->reset();
         $this->tags = Tag::all();
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Tag created successfully']);
     }
 
     public function showEditModal($tagId)
@@ -54,6 +55,7 @@ class TagIndex extends Component
         $this->reset();
         $this->tags = Tag::all();
         $this->showTagModal = false;
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Tag updated successfully']);
     }
 
     public function deleteTag($tagId)
@@ -62,6 +64,7 @@ class TagIndex extends Component
         $tag->delete();
         $this->reset();
         $this->tags = Tag::all();
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Tag deleted successfully']);
     }
 
     public function closeTagModal()
