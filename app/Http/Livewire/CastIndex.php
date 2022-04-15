@@ -17,6 +17,14 @@ class CastIndex extends Component
     public $castTMDBId;
     public $castName;
     public $castPosterPath;
+    public $castId;
+
+    public $showCastModal = false;
+
+    protected $rules = [
+        'castName'       => 'required',
+        'castPosterPath' => 'required',
+    ];
 
     public function generateCast()
     {
@@ -31,12 +39,54 @@ class CastIndex extends Component
                 'slug'        => Str::slug($newCast['name']),
                 'poster_path' => $newCast['profile_path'],
             ]);
-            $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New cast ' . $newCast['name'] .' Added successfully!']);
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New cast " ' . $newCast['name'] .' " Added successfully!']);
         }
         else
         {
-            $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Cast Exist!']);
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Cast " '. $cast->name.' " Exist!']);
         }
+    }
+
+    public function showEditModal($id)
+    {
+        $this->castId = $id;
+        $this->loadCast();
+        $this->showCastModal = true;
+
+    }
+
+    public function loadCast()
+    {
+        $cast                 = Cast::findOrFail($this->castId);
+        $this->castName       = $cast->name;
+        $this->castPosterPath = $cast->poster_path;
+    }
+
+    public function updateCast()
+    {
+        $this->validate();
+        $cast = Cast::findOrFail($this->castId);
+        $cast->update([
+            'name'        => $this->castName,
+            'poster_path' => $this->castPosterPath,
+        ]);
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New cast " ' . $cast->name .' " Updated successfully!']);
+        $this->reset();
+    }
+
+    public function closeCastModal()
+    {
+        $this->reset();
+        $this->resetValidation();
+    }
+
+    public function deleteCast($id)
+    {
+        $c = Cast::findOrFail($id);
+        $cName = $c->name;
+        $c->delete();
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Cast " ' . $cName .' " has been deleted successfully!']);
+        $this->reset();
     }
 
     public function render()
