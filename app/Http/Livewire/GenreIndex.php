@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\HTTP;
 use Illuminate\Support\Str;
 
+
 class GenreIndex extends Component
 {
     use WithPagination;
@@ -17,6 +18,10 @@ class GenreIndex extends Component
     public $tmdbId;
     public $title;
     public $genreId;
+
+    public $search = '';
+    public $sort = 'asc';
+    public $perPage = '5';
 
     public $showGenreModal = false;
 
@@ -115,10 +120,16 @@ class GenreIndex extends Component
     }
 
 
+    public function resetFilters()
+    {
+        $this->reset(['search','sort','perPage']);
+    }
+
+
     public function render()
     {
         return view('livewire.genre-index',[
-            'genres' => Genre::paginate(5)
+            'genres' => Genre::search('title', $this->search)->orderBy('title',$this->sort)->paginate($this->perPage)
         ]);
     }
 
