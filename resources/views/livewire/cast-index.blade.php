@@ -56,7 +56,7 @@
 		</div>
 	</div>
 	<x-jet-dialog-modal wire:model="showCastModal">
-			<x-slot name="title">Update Tag</x-slot>
+			<x-slot name="title">Update Cast</x-slot>
 		<x-slot name="content">
 
 			<div class="mt-10 sm:mt-0">
