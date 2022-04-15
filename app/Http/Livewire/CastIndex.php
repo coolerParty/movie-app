@@ -20,16 +20,23 @@ class CastIndex extends Component
 
     public function generateCast()
     {
-        $newCast = HTTP::get('https://api.themoviedb.org/3/person/10859?api_key=5267a519dbe54ffbef5e4a2ede3f35b0')
+        $newCast = HTTP::get('https://api.themoviedb.org/3/person/'. $this->castTMDBId .'?api_key=5267a519dbe54ffbef5e4a2ede3f35b0')
         ->json();
-
-        Cast::create([
-            'tmdb_id'     => $newCast['id'],
-            'name'        => $newCast['name'],
-            'slug'        => Str::slug($newCast['name']),
-            'poster_path' => $newCast['profile_path'],
-        ]);
-        
+        $cast = Cast::where('tmdb_id',$newCast['id'])->first();
+        if(!$cast)
+        {
+            Cast::create([
+                'tmdb_id'     => $newCast['id'],
+                'name'        => $newCast['name'],
+                'slug'        => Str::slug($newCast['name']),
+                'poster_path' => $newCast['profile_path'],
+            ]);
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New cast ' . $newCast['name'] .' Added successfully!']);
+        }
+        else
+        {
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Cast Exist!']);
+        }
     }
 
     public function render()
