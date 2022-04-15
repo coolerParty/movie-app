@@ -38,7 +38,7 @@
 								{{ $cast->slug }}
 							</td>
 							<td class="px-4 py-3 text-xs border">
-								{{ $cast->poster_path }}
+								<img class="w-12 h-12 rounded" src="https://image.tmdb.org/t/p/w500/{{ $cast->poster_path }}" alt="">								
 							</td>
 							<td class="px-4 py-3 text-sm border">
 								<x-m-button wire:click="showEditModal({{ $cast->id }})" class="bg-green-500 hover:bg-green-700 text-white">
