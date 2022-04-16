@@ -20,38 +20,42 @@ class SerieIndex extends Component
 
     public $tmdbId;
     public $name;
+    public $createdyear;
+    public $posterPath;
     public $serieId;
     
     public $showSerieModal = false;
     
     protected $rules = [
-        'name' => 'required',
+        'name'        => 'required',
+        'createdyear' => 'required',
+        'posterPath' => 'required',
     ];
 
     public function generateSerie()
     {
 
         $newSerie = HTTP::get('https://api.themoviedb.org/3/tv/'.$this->tmdbId.'?api_key=5267a519dbe54ffbef5e4a2ede3f35b0&language=en-US')
-        ->json();
+                ->json();
 
-            $serie = Serie::where('tmdb_id',$newSerie['id'])->first();
-            if(!$serie)
-            {
-                Serie::create([
-                    'tmdb_id'     => $newSerie['id'],
-                    'name'        => $newSerie['name'],
-                    'slug'        => Str::slug($newSerie['name']),
-                    'created_year'=> $newSerie['first_air_date'],
-                    'poster_path' => $newSerie['poster_path'],
-                ]);
-                
-                $this->reset();
-                $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New serie " ' . $newSerie['name'] .' " Added successfully!']);
-            }
-            else
-            {
-                $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Serie " '. $serie->name.' " Exist!']);
-            }
+        $serie = Serie::where('tmdb_id',$newSerie['id'])->first();
+        if(!$serie)
+        {
+            Serie::create([
+                'tmdb_id'     => $newSerie['id'],
+                'name'        => $newSerie['name'],
+                'slug'        => Str::slug($newSerie['name']),
+                'created_year'=> $newSerie['first_air_date'],
+                'poster_path' => $newSerie['poster_path'],
+            ]);
+            
+            $this->reset();
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New serie " ' . $newSerie['name'] .' " Added successfully!']);
+        }
+        else
+        {
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Serie " '. $serie->name.' " Exist!']);
+        }
         
 
     }
@@ -64,17 +68,40 @@ class SerieIndex extends Component
 
     public function showEditModal($id)
     {
+        $this->serieId = $id;
+        $this->loadSerie();
         $this->showSerieModal = true;
+    }
+
+    public function loadSerie()
+    {
+        $serie             = Serie::findOrFail($this->serieId);
+        $this->name        = $serie->name;
+        $this->createdyear = $serie->created_year;
+        $this->posterPath  = $serie->poster_path;
     }
 
     public function updateSeries()
     {
-
+        $this->validate();
+        $serie = Serie::findOrFail($this->serieId);
+        $serie->update([
+            'name'         => $this->name,
+            'slug'         => Str::slug($this->name,),
+            'created_year' => $this->createdyear,
+            'poster_path'  => $this->posterPath,
+        ]);
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Serie " ' . $serie->name .' " Updated successfully!']);
+        $this->reset();
     }
 
     public function deleteSerie($id)
     {
-
+        $s = Serie::findOrFail($id);
+        $sName = $s->name;
+        $s->delete();
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Serie " ' . $sName .' " has been deleted successfully!']);
+        $this->reset();
     }
 
     public function resetFilters()

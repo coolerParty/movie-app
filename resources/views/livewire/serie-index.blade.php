@@ -31,15 +31,15 @@
 					</svg>
 				</div>
 
-				<input wire:model="search"
-				 type="text" placeholder="Search by title"
+				<input wire:model="search" type="text" placeholder="Search by title"
 					class="px-8 py-3 w-full md:w-2/6 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" />
 			</div>
 
 			<div class="flex items-center justify-between mt-4">
 				<p class="font-medium">Filters</p>
 
-				<button wire:click="resetFilters" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-md">Reset
+				<button wire:click="resetFilters"
+					class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-md">Reset
 					Filter</button>
 			</div>
 
@@ -77,7 +77,7 @@
 				</thead>
 				<tbody class="bg-white">
 					@foreach ($series as $serie)
-						<tr class="text-gray-700">							
+						<tr class="text-gray-700">
 							<td class="px-4 py-3 border">
 								{{ $serie->name }}
 							</td>
@@ -87,7 +87,7 @@
 							<td class="px-4 py-3 text-sm border">
 								{{ $serie->created_year }}
 							</td>
-							<td class="px-4 py-3 border">								
+							<td class="px-4 py-3 border">
 								<img class="w-12 h-12 rounded" src="https://image.tmdb.org/t/p/w500/{{ $serie->poster_path }}" alt="">
 							</td>
 							<td class="px-4 py-3 text-sm border">
@@ -116,18 +116,31 @@
 					<form>
 						<div class="shadow overflow-hidden sm:rounded-md">
 							<div class="px-4 py-5 bg-white sm:p-6">
-								<div class="grid grid-cols-6 gap-6">
-									<div class="col-span-6 sm:col-span-3">
-										<label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-										<input wire:model="name" id="name" type="text" autocomplete="given-name"
-											class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-										@error('name')
-											<span class="text-red-500 text-sm">{{ $message }}</span>
-										@enderror
-									</div>
+								<div class="flex flex-col mb-4">
+									<label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+									<input wire:model="name" id="name" type="text" autocomplete="given-name"
+										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+									@error('name')
+										<span class="text-red-500 text-sm">{{ $message }}</span>
+									@enderror
+								</div>
+								<div class="flex flex-col mb-4">
+									<label for="createdyear" class="block text-sm font-medium text-gray-700">Created Year</label>
+									<input wire:model="createdyear" id="createdyear" type="text" autocomplete="given-name"
+										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+									@error('createdyear')
+										<span class="text-red-500 text-sm">{{ $message }}</span>
+									@enderror
+								</div>
+								<div class="flex flex-col mb-4">
+									<label for="posterPath" class="block text-sm font-medium text-gray-700">Poster Path</label>
+									<input wire:model="posterPath" id="posterPath" type="text" autocomplete="given-name"
+										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+									@error('posterPath')
+										<span class="text-red-500 text-sm">{{ $message }}</span>
+									@enderror
 								</div>
 							</div>
-
 						</div>
 					</form>
 				</div>
