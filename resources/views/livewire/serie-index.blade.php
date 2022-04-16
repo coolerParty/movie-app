@@ -91,6 +91,7 @@
 								<img class="w-12 h-12 rounded" src="https://image.tmdb.org/t/p/w500/{{ $serie->poster_path }}" alt="">
 							</td>
 							<td class="px-4 py-3 text-sm border">
+								<a href="{{ route('admin.seasons.index', $serie->id) }}" class="px-4 py-2.5 bg-indigo-300 text-gray-900 hover:bg-indigo-500 hover:text-gray-700 rounded">Seasons</a>
 								<x-m-button wire:click="showEditModal({{ $serie->id }})" class="bg-green-500 hover:bg-green-700 text-white">
 									Edit</x-m-button>
 								<x-m-button wire:click="deleteSerie({{ $serie->id }})" class="bg-red-500 hover:bg-red-700 text-white">Delete
