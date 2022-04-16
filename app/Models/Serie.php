@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Serie extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['tmdb_id','name','slug','created_year','poster_path'];
+
 }
