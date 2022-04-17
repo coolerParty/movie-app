@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Season;
+use App\Models\Serie;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\HTTP;
 use Illuminate\Support\Str;
@@ -11,6 +12,8 @@ use Illuminate\Support\Str;
 class SeasonIndex extends Component
 {
     use WithPagination;
+
+    public Serie $serie;
 
     protected $key = '5267a519dbe54ffbef5e4a2ede3f35b0';
     
@@ -29,8 +32,34 @@ class SeasonIndex extends Component
     protected $rules = [
         'name'        => 'required',
         'seasonNumber' => 'required',
-        'posterPath' => 'required',
+        'posterPath' => 'nullable',
     ];
+
+    public function generateSeason()
+    {
+        $newSeason = HTTP::get('https://api.themoviedb.org/3/tv/'.$this->serie->tmdb_id .'/season/'. $this->seasonNumber .'?api_key=5267a519dbe54ffbef5e4a2ede3f35b0&language=en-US')
+                ->json();
+
+        $season = Season::where('tmdb_id',$newSeason['id'])->first();
+        if(!$season)
+        {
+            Season::create([
+                'tmdb_id'       => $newSeason['id'],
+                'serie_id'      => $this->serie->id,
+                'name'          => $newSeason['name'],
+                'slug'          => Str::slug($newSeason['name']),
+                'season_number' => $newSeason['season_number'],
+                'poster_path'   => $newSeason['poster_path'] ? $newSeason['poster_path'] : $this->serie->poster_path,
+            ]);
+            
+            $this->reset('seasonNumber');
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New season " ' . $newSeason['name'] .' " Added successfully!']);
+        }
+        else
+        {
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Season " '. $season->name.' " Exist!']);
+        }
+    }    
 
     public function closeSeasonModal()
     {
@@ -84,7 +113,7 @@ class SeasonIndex extends Component
     public function render()
     {
         return view('livewire.season-index',[
-            'seasons' => Season::paginate(5),
+            'seasons' => Season::where('serie_id',$this->serie->id)->paginate(5),
         ]);
     }
 }

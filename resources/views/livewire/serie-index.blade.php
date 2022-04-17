@@ -68,10 +68,9 @@
 				<thead>
 					<tr
 						class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-						<th class="px-4 py-3">Poster</th>
 						<th class="px-4 py-3">Name</th>
-						<th class="px-4 py-3">Slug</th>
 						<th class="px-4 py-3">Year</th>
+						<th class="px-4 py-3">Poster</th>
 						<th class="px-4 py-3">Manage</th>
 					</tr>
 				</thead>
@@ -80,9 +79,6 @@
 						<tr class="text-gray-700">
 							<td class="px-4 py-3 border">
 								{{ $serie->name }}
-							</td>
-							<td class="px-4 py-3 text-ms font-semibold border">
-								{{ $serie->slug }}
 							</td>
 							<td class="px-4 py-3 text-sm border">
 								{{ $serie->created_year }}
