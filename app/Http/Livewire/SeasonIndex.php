@@ -21,7 +21,6 @@ class SeasonIndex extends Component
     public $sort = 'asc';
     public $perPage = '5';
 
-    public $tmdbId;
     public $name;
     public $seasonNumber;
     public $posterPath;
@@ -30,9 +29,9 @@ class SeasonIndex extends Component
     public $showSeasonModal = false;
     
     protected $rules = [
-        'name'        => 'required',
+        'name'         => 'required',
         'seasonNumber' => 'required',
-        'posterPath' => 'nullable',
+        'posterPath'   => 'nullable',
     ];
 
     public function generateSeason()
@@ -93,7 +92,7 @@ class SeasonIndex extends Component
             'poster_path'  => $this->posterPath,
         ]);
         $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Season " ' . $season->name .' " Updated successfully!']);
-        $this->reset();
+        $this->reset('seasonNumber','posterPath','name','seasonId','showSeasonModal');
     }
 
     public function deleteSeason($id)
@@ -102,7 +101,7 @@ class SeasonIndex extends Component
         $sName = $s->name;
         $s->delete();
         $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Season " ' . $sName .' " has been deleted successfully!']);
-        $this->reset();
+        $this->reset('seasonNumber','posterPath','name','seasonId','showSeasonModal');
     }
 
     public function resetFilters()
@@ -113,7 +112,7 @@ class SeasonIndex extends Component
     public function render()
     {
         return view('livewire.season-index',[
-            'seasons' => Season::where('serie_id',$this->serie->id)->paginate(5),
+            'seasons' => Season::search('name',$this->search)->orderBy('name', $this->sort)->where('serie_id',$this->serie->id)->paginate($this->perPage),
         ]);
     }
 }
