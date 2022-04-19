@@ -27,6 +27,7 @@ class EpisodeIndex extends Component
     public $episodeNumber;
     public $episodeId;
     public $overview;
+    public $isPublic;
     public $showEpisodeModal = false;
 
     protected $rules = [
@@ -76,7 +77,7 @@ class EpisodeIndex extends Component
 
     public function closeEpisodeModal()
     {
-        $this->reset('episodeNumber','overview','name','episodeId','showEpisodeModal');
+        $this->reset('episodeNumber','overview','name','episodeId','showEpisodeModal','isPublic');
         $this->resetValidation();
     }
 
@@ -93,6 +94,7 @@ class EpisodeIndex extends Component
         $this->name          = $episode->name;
         $this->episodeNumber = $episode->episode_number;
         $this->overview      = $episode->overview;
+        $this->isPublic      = $episode->is_public;
     }
 
     public function updateEpisode()
@@ -104,9 +106,10 @@ class EpisodeIndex extends Component
             'slug'           => Str::slug($this->name,),
             'episode_number' => $this->episodeNumber,
             'overview'       => $this->overview,
+            'is_public'       => $this->isPublic,
         ]);
         $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Episode " ' . $episode->name .' " Updated successfully!']);
-        $this->reset('episodeNumber','overview','name','episodeId','showEpisodeModal');
+        $this->reset('episodeNumber','overview','name','episodeId','showEpisodeModal','isPublic');
     }
 
     public function deleteEpisode($id)
@@ -115,7 +118,7 @@ class EpisodeIndex extends Component
         $eName = $e->name;
         $e->delete();
         $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Episode " ' . $eName .' " has been deleted successfully!']);
-        $this->reset('episodeNumber','overview','name','episodeId','showEpisodeModal');
+        $this->reset('episodeNumber','overview','name','episodeId','showEpisodeModal','isPublic');
     }
 
     public function resetFilters()
