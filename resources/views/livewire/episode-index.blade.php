@@ -1,12 +1,17 @@
 <section class="container mx-auto p-6 font-mono">
+	<x-slot name="header">
+		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
+			{{ __('Series / ' . $serie->name . ' / Season ' . $season->season_number) }}
+		</h2>
+	</x-slot>
 	{{-- generate genre start --}}
 	<div class="w-full flex mb-4 p-2 justify-end">
 		<form class="flex space-x-4 shadow bg-white rounded-md m-2 p-2">
 			<div class="p-1 flex items-center">
 				<label for="episodeNumber" class="block text-sm font-medium text-gray-700 md:mr-4">Episode Number</label>
 				<div class="relative rounded-md shadow-sm">
-					<input wire:model="episodeNumber" id="episodeNumber" name="tmdb_id_g" class="px-3 py-2 border border-gray-300 rounded"
-						placeholder="Episode Number" />
+					<input wire:model="episodeNumber" id="episodeNumber" name="tmdb_id_g"
+						class="px-3 py-2 border border-gray-300 rounded" placeholder="Episode Number" />
 				</div>
 			</div>
 			<div class="p-1">
@@ -79,7 +84,7 @@
 						<tr class="text-gray-700">
 							<td class="px-4 py-3 border">
 								{{ $episode->name }}
-							</td>							
+							</td>
 							<td class="px-4 py-3 border">
 								{{ $episode->is_public }}
 							</td>
@@ -87,9 +92,10 @@
 								{{ $episode->episode_number }}
 							</td>
 							<td class="px-4 py-3 text-sm border">
-								<x-m-button wire:click="showEditModal({{ $season->id }})" class="bg-green-500 hover:bg-green-700 text-white">
+								<x-m-button wire:click="showEditModal({{ $episode->id }})" class="bg-green-500 hover:bg-green-700 text-white">
 									Edit</x-m-button>
-								<x-m-button wire:click="deleteEpisode({{ $season->id }})" class="bg-red-500 hover:bg-red-700 text-white">Delete
+								<x-m-button wire:click="deleteEpisode({{ $episode->id }})" class="bg-red-500 hover:bg-red-700 text-white">
+									Delete
 								</x-m-button>
 							</td>
 						</tr>
@@ -129,8 +135,8 @@
 								</div>
 								<div class="flex flex-col mb-4">
 									<label for="overview" class="block text-sm font-medium text-gray-700">OverView</label>
-									<input wire:model="overview" id="overview" type="text" autocomplete="given-name"
-										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+									<textarea wire:model="overview" id="overview" type="text" autocomplete="given-name"
+          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
 									@error('overview')
 										<span class="text-red-500 text-sm">{{ $message }}</span>
 									@enderror

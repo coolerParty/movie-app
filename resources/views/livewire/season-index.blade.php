@@ -1,4 +1,9 @@
 <section class="container mx-auto p-6 font-mono">
+	<x-slot name="header">
+		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
+			{{ __('Series / '.$serie->name) }}
+		</h2>
+	</x-slot>
 	{{-- generate genre start --}}
 	<div class="w-full flex mb-4 p-2 justify-end">
 		<form class="flex space-x-4 shadow bg-white rounded-md m-2 p-2">
