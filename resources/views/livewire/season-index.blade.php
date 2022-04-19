@@ -87,6 +87,7 @@
 								{{ $season->season_number }}
 							</td>
 							<td class="px-4 py-3 text-sm border">
+								<a href="{{ route('admin.episodes.index', ['serie' => $serie->id, 'season' => $season->id]) }}" class="px-4 py-2.5 bg-indigo-300 text-gray-900 hover:bg-indigo-500 hover:text-gray-700 rounded">Episodes</a>
 								<x-m-button wire:click="showEditModal({{ $season->id }})" class="bg-green-500 hover:bg-green-700 text-white">
 									Edit</x-m-button>
 								<x-m-button wire:click="deleteSeason({{ $season->id }})" class="bg-red-500 hover:bg-red-700 text-white">Delete
