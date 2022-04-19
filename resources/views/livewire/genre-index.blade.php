@@ -1,4 +1,9 @@
 <section class="container mx-auto p-6 font-mono">
+	<x-slot name="header">
+		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
+			{{ __('Genres') }}
+		</h2>
+	</x-slot>
 	{{-- generate genre start --}}
 	<div class="w-full flex mb-4 p-2 justify-end">
 		<form class="flex space-x-4 shadow bg-white rounded-md m-2 p-2">
@@ -74,7 +79,7 @@
 					</tr>
 				</thead>
 				<tbody class="bg-white">
-					@foreach ($genres as $genre)
+					@forelse ($genres as $genre)
 						<tr class="text-gray-700">
 							<td class="px-4 py-3 border">
 								{{ $genre->title }}
@@ -89,7 +94,19 @@
 								</x-m-button>
 							</td>
 						</tr>
-					@endforeach
+					@empty
+						<tr class="text-gray-700">
+							<td class="px-4 py-3 border">
+								Empty
+							</td>
+							<td class="px-4 py-3 text-ms font-semibold border">
+								
+							</td>
+							<td class="px-4 py-3 text-sm border">
+								
+							</td>
+						</tr>
+					@endforelse
 				</tbody>
 			</table>
 			<div class="m-2 p-2">

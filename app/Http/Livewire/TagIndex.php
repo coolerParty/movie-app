@@ -3,16 +3,21 @@
 namespace App\Http\Livewire;
 use App\Models\Tag;
 use Illuminate\Support\Str;
+use Livewire\WithPagination;
 
 use Livewire\Component;
 
 class TagIndex extends Component
 {
+    use WithPagination;
+
+    public $search = '';
+    public $sort = 'asc';
+    public $perPage = '5';
+
     public $showTagModal = false;
     public $tagName;
     public $tagId;
-
-    public $tags = [];
 
     public function showCreateModal()
     {
@@ -20,10 +25,7 @@ class TagIndex extends Component
         $this->showTagModal = true;
     }
 
-    public function mount() 
-    {
-        $this->tags = Tag::all();
-    }
+    
 
     public function createTag()
     {
@@ -31,9 +33,8 @@ class TagIndex extends Component
             'tag_name' => $this->tagName,
             'slug'     => Str::slug($this->tagName),
         ]);
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Tag  created successfully']);        
         $this->reset();
-        $this->tags = Tag::all();
-        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Tag created successfully']);
     }
 
     public function showEditModal($tagId)
@@ -53,7 +54,6 @@ class TagIndex extends Component
             'slug'     => Str::slug($this->tagName),
         ]);
         $this->reset();
-        $this->tags = Tag::all();
         $this->showTagModal = false;
         $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Tag updated successfully']);
     }
@@ -63,7 +63,6 @@ class TagIndex extends Component
         $tag = Tag::findOrFail($tagId);
         $tag->delete();
         $this->reset();
-        $this->tags = Tag::all();
         $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Tag deleted successfully']);
     }
 
@@ -72,8 +71,15 @@ class TagIndex extends Component
         $this->showTagModal = false;
     }
 
+    public function resetFilters()
+    {
+        $this->reset(['search','sort','perPage']);
+    }
+
     public function render()
     {
-        return view('livewire.tag-index');
+        return view('livewire.tag-index',[
+            'tags' => Tag::search('tag_name', $this->search)->orderBy('tag_name', $this->sort)->paginate($this->perPage),
+        ]);
     }
 }

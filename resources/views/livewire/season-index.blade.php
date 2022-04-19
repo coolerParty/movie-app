@@ -80,7 +80,7 @@
 					</tr>
 				</thead>
 				<tbody class="bg-white">
-					@foreach ($seasons as $season)
+					@forelse ($seasons as $season)
 						<tr class="text-gray-700">
 							<td class="px-4 py-3 border">
 								{{ $season->name }}
@@ -99,7 +99,22 @@
 								</x-m-button>
 							</td>
 						</tr>
-					@endforeach
+					@empty
+						<tr class="text-gray-700">
+							<td class="px-4 py-3 border">
+								Empty
+							</td>							
+							<td class="px-4 py-3 border">
+								
+							</td>
+							<td class="px-4 py-3 text-ms font-semibold border">
+								
+							</td>
+							<td class="px-4 py-3 text-sm border">
+								
+							</td>
+						</tr>
+					@endforelse
 				</tbody>
 			</table>
 			<div class="m-2 p-2">

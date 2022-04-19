@@ -12,6 +12,10 @@ class CastIndex extends Component
 {
     use WithPagination;
 
+    public $search = '';
+    public $sort = 'asc';
+    public $perPage = '5';
+
     protected $key = '5267a519dbe54ffbef5e4a2ede3f35b0';
 
     public $castTMDBId;
@@ -89,10 +93,15 @@ class CastIndex extends Component
         $this->reset();
     }
 
+    public function resetFilters()
+    {
+        $this->reset(['search','sort','perPage']);
+    }
+
     public function render()
     {
         return view('livewire.cast-index',[
-            'casts' => Cast::paginate(5)
+            'casts' => Cast::search('name', $this->search)->orderby('name', $this->sort)->paginate($this->perPage)
         ]);
     }
 }
