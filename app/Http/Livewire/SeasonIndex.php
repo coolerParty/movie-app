@@ -36,36 +36,36 @@ class SeasonIndex extends Component
 
     public function generateSeason()
     {
-        $newSeason = HTTP::get('https://api.themoviedb.org/3/tv/'.$this->serie->tmdb_id .'/season/'. $this->seasonNumber .'?api_key=5267a519dbe54ffbef5e4a2ede3f35b0&language=en-US');
-
-        if($newSeason->ok())
+        $season = Season::where('serie_id', $this->serie->id)->where('season_number',$this->seasonNumber)->exists();
+        if($season)
         {
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Season already Exist!']);
+            return;
+        }
 
-            $season = Season::where('tmdb_id',$newSeason['id'])->first();
-            if(!$season)
-            {
-                Season::create([
-                    'tmdb_id'       => $newSeason['id'],
-                    'serie_id'      => $this->serie->id,
-                    'name'          => $newSeason['name'],
-                    'slug'          => Str::slug($newSeason['name']),
-                    'season_number' => $newSeason['season_number'],
-                    'poster_path'   => $newSeason['poster_path'] ? $newSeason['poster_path'] : $this->serie->poster_path,
-                ]);
-                
-                $this->reset('seasonNumber');
-                $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New season " ' . $newSeason['name'] .' " Added successfully!']);
-            }
-            else
-            {
-                $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Season " '. $season->name.' " Exist!']);
-            }
+        $apiSeason = HTTP::get('https://api.themoviedb.org/3/tv/'.$this->serie->tmdb_id .'/season/'. $this->seasonNumber .'?api_key=5267a519dbe54ffbef5e4a2ede3f35b0&language=en-US');
+        if($apiSeason->ok())
+        {
+            $newSeason = $apiSeason->json();
+            Season::create([
+                'tmdb_id'       => $newSeason['id'],
+                'serie_id'      => $this->serie->id,
+                'name'          => $newSeason['name'],
+                'slug'          => Str::slug($newSeason['name']),
+                'season_number' => $newSeason['season_number'],
+                'poster_path'   => $newSeason['poster_path'] ? $newSeason['poster_path'] : $this->serie->poster_path,
+            ]);
+            
+            $this->reset('seasonNumber');
+            $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New season " ' . $newSeason['name'] .' " Added successfully!']);
 
         }
         else
         {
+
             $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Api not Exist!']);
             $this->reset('seasonNumber');
+
         }
         
     }    
