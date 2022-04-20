@@ -14,7 +14,8 @@ class MovieIndex extends Component
     use WithPagination;
 
     public $search = '';
-    public $sort = 'asc';
+    public $sortColumn = 'title';
+    public $sortDirection = 'asc';
     public $perPage = '5';
 
     public $title;
@@ -72,6 +73,19 @@ class MovieIndex extends Component
         
     } 
 
+    public function sortByColumn($column)
+    {
+        if($this->sortColumn == $column)
+        {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        }
+        else
+        {
+            $this->sortDirection = 'asc';
+        }
+        $this->sortColumn = $column;
+    }
+
     public function resetFilters()
     {
         $this->reset(['search','sort','perPage']);
@@ -80,7 +94,7 @@ class MovieIndex extends Component
     public function render()
     {
         return view('livewire.movie-index',[
-            'movies' => Movie::search('title', $this->search)->orderBy('title', $this->sort)->paginate($this->perPage),
+            'movies' => Movie::search('title', $this->search)->orderBy($this->sortColumn , $this->sortDirection)->paginate($this->perPage),
         ]);
     }
 }
