@@ -23,11 +23,26 @@ class MovieIndex extends Component
     public $lang;
     public $videoFormat;
     public $rating;
-    public $postPath;
+    public $posterPath;
     public $backdropPath;
     public $overview;
     public $isPublic;
     public $tmdbId;
+    public $movieId;
+
+    public $showMovieModal = false;
+
+    protected $rules = [
+        'title'        => 'required',
+        'runtime'      => 'required',
+        'lang'         => 'required',
+        'videoFormat'  => 'required',
+        'rating'       => 'required',
+        'posterPath'     => 'required',
+        'backdropPath' => 'required',
+        'overview'     => 'required',
+        'isPublic'     => 'required',
+    ];
 
     public function generateMovie()
     {
@@ -86,9 +101,60 @@ class MovieIndex extends Component
         $this->sortColumn = $column;
     }
 
-    public function resetFilters()
+    public function closeMovieModal()
     {
-        $this->reset(['search','sort','perPage']);
+        $this->reset();
+        $this->resetValidation();
+    }
+
+    public function showEditModal($movieId)
+    {
+        $this->movieId = $movieId;
+        $this->loadMovie();
+        $this->showMovieModal = true;
+    }
+
+    public function loadMovie()
+    {
+        $movie              = Movie::findOrFail($this->movieId);
+        $this->title        = $movie->title;
+        $this->runtime      = $movie->runtime;
+        $this->lang         = $movie->lang;
+        $this->videoFormat  = $movie->video_format;
+        $this->rating       = $movie->rating;
+        $this->posterPath   = $movie->poster_path;
+        $this->backdropPath = $movie->backdrop_path;
+        $this->overview     = $movie->overview;
+        $this->isPublic     = $movie->is_public;
+    }
+
+    public function updateMovie()
+    {
+        $this->validate();
+        $movie = Movie::findOrFail($this->movieId);
+        $movie->update([
+            'title'         => $this->title,
+            'slug'          => Str::slug($this->title),
+            'runtime'       => $this->runtime,
+            'lang'          => $this->lang,
+            'video_format'  => $this->videoFormat,
+            'rating'        => $this->rating,
+            'poster_path'   => $this->posterPath,
+            'backdrop_path' => $this->backdropPath,
+            'overview'      => $this->overview,
+            'is_public'     => $this->isPublic,
+        ]);
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Movie " ' . $movie->title .' " Updated successfully!']);
+        $this->reset();
+    }
+
+    public function deleteMovie($movieId)
+    {
+        $m = Movie::findOrFail($movieId);
+        $mTitle = $m->title;
+        $m->delete();
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Movie " ' . $mTitle .' " has been deleted successfully!']);
+        $this->reset();
     }
 
     public function render()
