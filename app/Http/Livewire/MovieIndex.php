@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Movie;
+use App\Models\Genre;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\HTTP;
 use Illuminate\Support\Str;
@@ -59,7 +60,7 @@ class MovieIndex extends Component
         if($apiMovie->successful())
         {
             $newMovie = $apiMovie->json();
-            Movie::create([
+            $created_movie = Movie::create([
                 'tmdb_id'       => $newMovie['id'],
                 'title'         => $newMovie['title'],
                 'slug'          => Str::slug($newMovie['title']),
@@ -74,6 +75,11 @@ class MovieIndex extends Component
                 'backdrop_path' => $newMovie['backdrop_path'],
             ]);
             
+            $tmdb_genres = $newMovie['genres'];
+            $tmdb_genres_ids = collect($tmdb_genres)->pluck('id');
+            $genres = Genre::whereIn('tmdb_id', $tmdb_genres_ids)->get();
+            $created_movie->genres()->attach($genres);
+
             $this->reset('tmdbId');
             $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'New movie " ' . $newMovie['title'] .' " Added successfully!']);
 

@@ -9,6 +9,8 @@ class Movie extends Model
 {
     use HasFactory;
 
+    protected $dates = [''];
+
     protected $fillable = [
         'tmdb_id',      
         'title' ,       
@@ -23,4 +25,9 @@ class Movie extends Model
         'poster_path',  
         'backdrop_path'
     ];
+
+    public function genres()
+    {
+        return $this->belongsToMany(Genre::class, 'genre_movie');
+    }
 }

@@ -123,22 +123,22 @@
 					</tr>
 				</thead>
 				<tbody class="bg-white">
-					@forelse ($movies as $movie)
+					@forelse ($movies as $table_movie)
 						<tr class="text-gray-700">
 							<td class="px-4 py-3 border">
-								{{ $movie->title }}
+								{{ $table_movie->title }}
 							</td>
 							<td class="px-4 py-3 border">
-								{{ $movie->rating }}
+								{{ $table_movie->rating }}
 							</td>
 							<td class="px-4 py-3 border">
-								{{ $movie->visits }}
+								{{ $table_movie->visits }}
 							</td>
 							<td class="px-4 py-3 text-ms font-semibold border">
-								{{ date('H:i', mktime(0, $movie->runtime)) }}
+								{{ date('H:i', mktime(0, $table_movie->runtime)) }}
 							</td>
 							<td class="px-4 py-3 text-ms font-semibold border">
-								@if ($movie->is_public)
+								@if ($table_movie->is_public)
 									<span class="px-2 inline-flex text-xs leading-5 font-semibolic rounded-full bg-indigo-100 text-indigo 800">
 										Published
 									</span>
@@ -150,13 +150,13 @@
 							</td>
 							<td class="px-4 py-3 text-ms font-semibold border">
 
-								<img class="w-12 h-12 rounded" src="https://image.tmdb.org/t/p/w220_and_h330_face/{{ $movie->poster_path }}"
+								<img class="w-12 h-12 rounded" src="https://image.tmdb.org/t/p/w220_and_h330_face/{{ $table_movie->poster_path }}"
 									alt="">
 							</td>
 							<td class="px-4 py-3 text-sm border">
-								<x-m-button wire:click="showEditModal({{ $movie->id }})" class="bg-green-500 hover:bg-green-700 text-white">
+								<x-m-button wire:click="showEditModal({{ $table_movie->id }})" class="bg-green-500 hover:bg-green-700 text-white">
 									Edit</x-m-button>
-								<x-m-button wire:click="deleteMovie({{ $movie->id }})" class="bg-red-500 hover:bg-red-700 text-white">Delete
+								<x-m-button wire:click="deleteMovie({{ $table_movie->id }})" class="bg-red-500 hover:bg-red-700 text-white">Delete
 								</x-m-button>
 							</td>
 						</tr>
@@ -181,7 +181,6 @@
 	<x-jet-dialog-modal wire:model="showMovieModal">
 		<x-slot name="title">Update Movie</x-slot>
 		<x-slot name="content">
-
 			<div class="mt-10 sm:mt-0">
 				<div class="mt-5 md:mt-0 md:col-span-2">
 					<form>
