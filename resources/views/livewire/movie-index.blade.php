@@ -62,9 +62,60 @@
 				<thead>
 					<tr
 						class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-						<th class="px-4 py-3 cursor-pointer" wire:click="sortByColumn('title')">Title</th>
-						<th class="px-4 py-3 cursor-pointer" wire:click="sortByColumn('rating')">Rating</th>
-						<th class="px-4 py-3 cursor-pointer" wire:click="sortByColumn('visits')">Visits</th>
+						<th class="px-4 py-3 cursor-pointer" wire:click="sortByColumn('title')">
+							<div class="flex space-x-4 content-center">
+								<span>Title</span>
+								@if ($sortColumn == 'title' && $sortDirection == 'desc')
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-700" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd"
+											d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
+											clip-rule="evenodd" />
+									</svg>
+								@elseif ($sortColumn == 'title' && $sortDirection == 'asc')
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-700" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd"
+											d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+											clip-rule="evenodd" />
+									</svg>
+								@endif
+							</div>
+						</th>
+						<th class="px-4 py-3 cursor-pointer" wire:click="sortByColumn('rating')">
+							<div class="flex space-x-4 content-center">
+								<span>Rating</span>
+								@if ($sortColumn == 'rating' && $sortDirection == 'desc')
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-700" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd"
+											d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
+											clip-rule="evenodd" />
+									</svg>
+								@elseif ($sortColumn == 'rating' && $sortDirection == 'asc')
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-700" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd"
+											d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+											clip-rule="evenodd" />
+									</svg>
+								@endif
+							</div>
+						</th>
+						<th class="px-4 py-3 cursor-pointer" wire:click="sortByColumn('visits')">
+							<div class="flex space-x-4 content-center">
+								<span>Visits</span>
+								@if ($sortColumn == 'visits' && $sortDirection == 'desc')
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-700" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd"
+											d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
+											clip-rule="evenodd" />
+									</svg>
+								@elseif ($sortColumn == 'visits' && $sortDirection == 'asc')
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-700" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd"
+											d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+											clip-rule="evenodd" />
+									</svg>
+								@endif
+							</div>
+						</th>
 						<th class="px-4 py-3">Runtime</th>
 						<th class="px-4 py-3">Published</th>
 						<th class="px-4 py-3">Poster</th>
@@ -84,7 +135,7 @@
 								{{ $movie->visits }}
 							</td>
 							<td class="px-4 py-3 text-ms font-semibold border">
-								{{ date('H:i' , mktime(0, $movie->runtime)) }}
+								{{ date('H:i', mktime(0, $movie->runtime)) }}
 							</td>
 							<td class="px-4 py-3 text-ms font-semibold border">
 								@if ($movie->is_public)
@@ -99,7 +150,8 @@
 							</td>
 							<td class="px-4 py-3 text-ms font-semibold border">
 
-								<img class="w-12 h-12 rounded" src="https://image.tmdb.org/t/p/w220_and_h330_face/{{ $movie->poster_path }}" alt="">
+								<img class="w-12 h-12 rounded" src="https://image.tmdb.org/t/p/w220_and_h330_face/{{ $movie->poster_path }}"
+									alt="">
 							</td>
 							<td class="px-4 py-3 text-sm border">
 								<x-m-button wire:click="showEditModal({{ $movie->id }})" class="bg-green-500 hover:bg-green-700 text-white">
