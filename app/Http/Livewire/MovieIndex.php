@@ -32,6 +32,7 @@ class MovieIndex extends Component
     public $movieId;
 
     public $showMovieModal = false;
+    public $showTrailer = false;
 
     protected $rules = [
         'title'        => 'required',
@@ -160,6 +161,16 @@ class MovieIndex extends Component
         $mTitle = $m->title;
         $m->delete();
         $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Movie " ' . $mTitle .' " has been deleted successfully!']);
+        $this->reset();
+    }
+
+    public function showTrailerModal($movieId)
+    {
+        $this->showTrailer = true;
+    }
+
+    public function addTrailer()
+    {
         $this->reset();
     }
 

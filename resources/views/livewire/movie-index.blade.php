@@ -154,7 +154,9 @@
 									alt="">
 							</td>
 							<td class="px-4 py-3 text-sm border">
-								<x-m-button wire:click="showEditModal({{ $table_movie->id }})" class="bg-green-500 hover:bg-green-700 text-white">
+								<x-m-button wire:click="showTrailerModal({{ $table_movie->id }})" class="bg-indigo-500 hover:bg-indigo-700 text-white">
+									Trailer</x-m-button>
+								<x-m-button wire:click="showEditModal({{ $table_movie->id }})" class="bg-green-600 hover:bg-green-500 text-white">
 									Edit</x-m-button>
 								<x-m-button wire:click="deleteMovie({{ $table_movie->id }})" class="bg-red-500 hover:bg-red-700 text-white">Delete
 								</x-m-button>
@@ -268,6 +270,21 @@
 		<x-slot name="footer">
 			<x-m-button wire:click="closeMovieModal" class="bg-gray-600 hover:bg-gray-800 text-white">Cancel</x-m-button>
 			<x-m-button wire:click="updateMovie">Update</x-m-button>
+		</x-slot>
+	</x-jet-dialog-modal>
+
+	<x-jet-dialog-modal wire:model="showTrailer">
+		<x-slot name="title">Trailer Movie</x-slot>
+		<x-slot name="content">
+			<div class="mt-10 sm:mt-0">
+				<div class="mt-5 md:mt-0 md:col-span-2">
+					Form
+				</div>
+			</div>
+		</x-slot>
+		<x-slot name="footer">
+			<x-m-button wire:click="closeMovieModal" class="bg-gray-600 hover:bg-gray-800 text-white">Cancel</x-m-button>
+			<x-m-button wire:click="addTrailer">Add Trailer</x-m-button>
 		</x-slot>
 	</x-jet-dialog-modal>
 </section>
