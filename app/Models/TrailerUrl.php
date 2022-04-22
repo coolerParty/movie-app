@@ -9,7 +9,7 @@ class TrailerUrl extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['web_name','web_url'];
+    protected $fillable = ['name','embed_html'];
 
     public function trailerable()
     {

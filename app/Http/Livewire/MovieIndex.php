@@ -31,6 +31,11 @@ class MovieIndex extends Component
     public $tmdbId;
     public $movieId;
 
+    public $trailerName;
+    public $embedHtml;
+
+    public $movie = [];
+
     public $showMovieModal = false;
     public $showTrailer = false;
 
@@ -48,8 +53,8 @@ class MovieIndex extends Component
 
     public function generateMovie()
     {
-        $movie = Movie::where('tmdb_id',$this->tmdbId)->exists();
-        if($movie)
+        $movie_exist = Movie::where('tmdb_id',$this->tmdbId)->exists();
+        if($movie_exist)
         {
             $this->dispatchBrowserEvent('banner-message', ['style' => 'danger', 'message' => 'Movie already Exist!']);
             return;
@@ -123,23 +128,23 @@ class MovieIndex extends Component
 
     public function loadMovie()
     {
-        $movie              = Movie::findOrFail($this->movieId);
-        $this->title        = $movie->title;
-        $this->runtime      = $movie->runtime;
-        $this->lang         = $movie->lang;
-        $this->videoFormat  = $movie->video_format;
-        $this->rating       = $movie->rating;
-        $this->posterPath   = $movie->poster_path;
-        $this->backdropPath = $movie->backdrop_path;
-        $this->overview     = $movie->overview;
-        $this->isPublic     = $movie->is_public;
+        $this->movie        = Movie::findOrFail($this->movieId);
+        $this->title        = $this->movie->title;
+        $this->runtime      = $this->movie->runtime;
+        $this->lang         = $this->movie->lang;
+        $this->videoFormat  = $this->movie->video_format;
+        $this->rating       = $this->movie->rating;
+        $this->posterPath   = $this->movie->poster_path;
+        $this->backdropPath = $this->movie->backdrop_path;
+        $this->overview     = $this->movie->overview;
+        $this->isPublic     = $this->movie->is_public;
     }
 
     public function updateMovie()
     {
         $this->validate();
-        $movie = Movie::findOrFail($this->movieId);
-        $movie->update([
+        $this->movie = Movie::findOrFail($this->movieId);
+        $this->movie->update([
             'title'         => $this->title,
             'slug'          => Str::slug($this->title),
             'runtime'       => $this->runtime,
@@ -166,11 +171,17 @@ class MovieIndex extends Component
 
     public function showTrailerModal($movieId)
     {
+        $this->movie = Movie::findOrFail($movieId);
         $this->showTrailer = true;
     }
 
     public function addTrailer()
     {
+        $this->movie->trailers()->create([
+            'name' => $this->trailerName,
+            'embed_html' => $this->embedHtml,
+        ]);
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Trailer has been added successfully!']);
         $this->reset();
     }
 

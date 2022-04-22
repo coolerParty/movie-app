@@ -189,7 +189,7 @@
 					<form>
 						<div class="shadow overflow-hidden sm:rounded-md">
 							<div class="px-4 py-5 bg-white sm:p-6">
-								<div class="flex flex-col mb-4">
+								<div class="flex flex-col">
 									<label for="title" class="block text-sm font-medium text-gray-700">Title</label>
 									<input wire:model="title" id="title" type="text" autocomplete="given-title"
 										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -197,7 +197,7 @@
 										<span class="text-red-500 text-sm">{{ $message }}</span>
 									@enderror
 								</div>
-								<div class="flex flex-col mb-4">
+								<div class="flex flex-col">
 									<label for="runtime" class="block text-sm font-medium text-gray-700">Runtime</label>
 									<input wire:model="runtime" id="runtime" type="text" autocomplete="given-runtime"
 										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -205,7 +205,7 @@
 										<span class="text-red-500 text-sm">{{ $message }}</span>
 									@enderror
 								</div>
-								<div class="flex flex-col mb-4">
+								<div class="flex flex-col">
 									<label for="lang" class="block text-sm font-medium text-gray-700">Language</label>
 									<input wire:model="lang" id="lang" type="text" autocomplete="given-lang"
 										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -213,7 +213,7 @@
 										<span class="text-red-500 text-sm">{{ $message }}</span>
 									@enderror
 								</div>
-								<div class="flex flex-col mb-4">
+								<div class="flex flex-col">
 									<label for="videoFormat" class="block text-sm font-medium text-gray-700">Format</label>
 									<input wire:model="videoFormat" id="videoFormat" type="text" autocomplete="given-videoFormat"
 										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -221,7 +221,7 @@
 										<span class="text-red-500 text-sm">{{ $message }}</span>
 									@enderror
 								</div>
-								<div class="flex flex-col mb-4">
+								<div class="flex flex-col">
 									<label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
 									<input wire:model="rating" id="rating" type="text" autocomplete="given-rating"
 										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -229,7 +229,7 @@
 										<span class="text-red-500 text-sm">{{ $message }}</span>
 									@enderror
 								</div>
-								<div class="flex flex-col mb-4">
+								<div class="flex flex-col">
 									<label for="posterPath" class="block text-sm font-medium text-gray-700">Poster</label>
 									<input wire:model="posterPath" id="posterPath" type="text" autocomplete="given-posterPath"
 										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -237,7 +237,7 @@
 										<span class="text-red-500 text-sm">{{ $message }}</span>
 									@enderror
 								</div>
-								<div class="flex flex-col mb-4">
+								<div class="flex flex-col">
 									<label for="backdropPath" class="block text-sm font-medium text-gray-700">Backdrop</label>
 									<input wire:model="backdropPath" id="backdropPath" type="text" autocomplete="given-backdropPath"
 										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -245,7 +245,7 @@
 										<span class="text-red-500 text-sm">{{ $message }}</span>
 									@enderror
 								</div>
-								<div class="flex flex-col mb-4">
+								<div class="flex flex-col">
 									<label for="overview" class="block text-sm font-medium text-gray-700">Overview</label>
 									<input wire:model="overview" id="overview" type="text" autocomplete="given-overview"
 										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -253,7 +253,7 @@
 										<span class="text-red-500 text-sm">{{ $message }}</span>
 									@enderror
 								</div>
-								<div class="flex flex-col mb-4">
+								<div class="flex flex-col">
 									<div class="flex items-center px-2 py-6">
 										<input wire:model="isPublic" id="isPublic" name="isPublic" type="checkbox"
 											class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
@@ -278,9 +278,37 @@
 	<x-jet-dialog-modal wire:model="showTrailer">
 		<x-slot name="title">Trailer Movie</x-slot>
 		<x-slot name="content">
+			@if($movie)
+				@foreach ($movie->trailers as $trailer)
+					{{ $trailer->name }},
+					
+				@endforeach
+			@endif
 			<div class="mt-10 sm:mt-0">
 				<div class="mt-5 md:mt-0 md:col-span-2">
-					Form
+					<form>
+						<div class="shadow overflow-hidden sm:rounded-md">
+							<div class="px-4 py-5 bg-white sm:p-6">
+								<div class="flex flex-col mb-4">
+									<label for="trailerName" class="block text-sm font-medium text-gray-700">Name</label>
+									<input wire:model="trailerName" id="trailerName" type="text" autocomplete="given-name"
+										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+									@error('trailerName')
+										<span class="text-red-500 text-sm">{{ $message }}</span>
+									@enderror
+								</div>
+								<div class="flex flex-col mb-4">
+									<label for="embedHtml" class="block text-sm font-medium text-gray-700">Embed Html</label>
+									<textarea wire:model="embedHtml" id="embedHtml" type="text" autocomplete="given-embedHtml"
+										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+									@error('embedHtml')
+										<span class="text-red-500 text-sm">{{ $message }}</span>
+									@enderror
+								</div>
+							</div>
+
+						</div>
+					</form>
 				</div>
 			</div>
 		</x-slot>
