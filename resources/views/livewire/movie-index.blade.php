@@ -282,7 +282,9 @@
 							</form>
 						</div>
 						<div class="p-4 space-x-2" x-show="tab === 1">
-							<livewire:movie-tag/>
+							@if ($movie)
+								<livewire:movie-tag :movie="$movie"/>								
+							@endif
 						</div>
 					</div>
 				</div>
