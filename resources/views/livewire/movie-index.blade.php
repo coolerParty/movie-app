@@ -195,85 +195,96 @@
 		<x-slot name="title">Update Movie</x-slot>
 		<x-slot name="content">
 			<div class="mt-10 sm:mt-0">
-				<div class="mt-5 md:mt-0 md:col-span-2">
-					<form>
-						<div class="shadow overflow-hidden sm:rounded-md">
-							<div class="px-4 py-5 bg-white sm:p-6">
-								<div class="flex flex-col">
-									<label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-									<input wire:model="title" id="title" type="text" autocomplete="given-title"
-										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-									@error('title')
-										<span class="text-red-500 text-sm">{{ $message }}</span>
-									@enderror
-								</div>
-								<div class="flex flex-col">
-									<label for="runtime" class="block text-sm font-medium text-gray-700">Runtime</label>
-									<input wire:model="runtime" id="runtime" type="text" autocomplete="given-runtime"
-										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-									@error('runtime')
-										<span class="text-red-500 text-sm">{{ $message }}</span>
-									@enderror
-								</div>
-								<div class="flex flex-col">
-									<label for="lang" class="block text-sm font-medium text-gray-700">Language</label>
-									<input wire:model="lang" id="lang" type="text" autocomplete="given-lang"
-										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-									@error('lang')
-										<span class="text-red-500 text-sm">{{ $message }}</span>
-									@enderror
-								</div>
-								<div class="flex flex-col">
-									<label for="videoFormat" class="block text-sm font-medium text-gray-700">Format</label>
-									<input wire:model="videoFormat" id="videoFormat" type="text" autocomplete="given-videoFormat"
-										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-									@error('videoFormat')
-										<span class="text-red-500 text-sm">{{ $message }}</span>
-									@enderror
-								</div>
-								<div class="flex flex-col">
-									<label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
-									<input wire:model="rating" id="rating" type="text" autocomplete="given-rating"
-										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-									@error('rating')
-										<span class="text-red-500 text-sm">{{ $message }}</span>
-									@enderror
-								</div>
-								<div class="flex flex-col">
-									<label for="posterPath" class="block text-sm font-medium text-gray-700">Poster</label>
-									<input wire:model="posterPath" id="posterPath" type="text" autocomplete="given-posterPath"
-										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-									@error('posterPath')
-										<span class="text-red-500 text-sm">{{ $message }}</span>
-									@enderror
-								</div>
-								<div class="flex flex-col">
-									<label for="backdropPath" class="block text-sm font-medium text-gray-700">Backdrop</label>
-									<input wire:model="backdropPath" id="backdropPath" type="text" autocomplete="given-backdropPath"
-										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-									@error('backdropPath')
-										<span class="text-red-500 text-sm">{{ $message }}</span>
-									@enderror
-								</div>
-								<div class="flex flex-col">
-									<label for="overview" class="block text-sm font-medium text-gray-700">Overview</label>
-									<input wire:model="overview" id="overview" type="text" autocomplete="given-overview"
-										class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-									@error('overview')
-										<span class="text-red-500 text-sm">{{ $message }}</span>
-									@enderror
-								</div>
-								<div class="flex flex-col">
-									<div class="flex items-center px-2 py-6">
-										<input wire:model="isPublic" id="isPublic" name="isPublic" type="checkbox"
-											class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-										<label for="isPublic" class="ml-2 block text-sm text-gray-900"> Published </label>
+				<div class="mt-5 md:mt-0 md:col-span-2" x-data="{tab: 0}">
+					<div class="flex border border-black overflow-hidden"> 
+						<button class="px-4 py-2 w-full" x-on:click.prevent="tab = 0">Form</button>
+						<button class="px-4 py-2 w-full" x-on:click.prevent="tab = 1">Tags</button>
+					</div>
+					<div>
+						<div class="p-4 space-x-2" x-show="tab === 0">
+							<form>
+								<div class="shadow overflow-hidden sm:rounded-md">
+									<div class="px-4 py-5 bg-white sm:p-6">
+										<div class="flex flex-col">
+											<label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+											<input wire:model="title" id="title" type="text" autocomplete="given-title"
+												class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+											@error('title')
+												<span class="text-red-500 text-sm">{{ $message }}</span>
+											@enderror
+										</div>
+										<div class="flex flex-col">
+											<label for="runtime" class="block text-sm font-medium text-gray-700">Runtime</label>
+											<input wire:model="runtime" id="runtime" type="text" autocomplete="given-runtime"
+												class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+											@error('runtime')
+												<span class="text-red-500 text-sm">{{ $message }}</span>
+											@enderror
+										</div>
+										<div class="flex flex-col">
+											<label for="lang" class="block text-sm font-medium text-gray-700">Language</label>
+											<input wire:model="lang" id="lang" type="text" autocomplete="given-lang"
+												class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+											@error('lang')
+												<span class="text-red-500 text-sm">{{ $message }}</span>
+											@enderror
+										</div>
+										<div class="flex flex-col">
+											<label for="videoFormat" class="block text-sm font-medium text-gray-700">Format</label>
+											<input wire:model="videoFormat" id="videoFormat" type="text" autocomplete="given-videoFormat"
+												class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+											@error('videoFormat')
+												<span class="text-red-500 text-sm">{{ $message }}</span>
+											@enderror
+										</div>
+										<div class="flex flex-col">
+											<label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+											<input wire:model="rating" id="rating" type="text" autocomplete="given-rating"
+												class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+											@error('rating')
+												<span class="text-red-500 text-sm">{{ $message }}</span>
+											@enderror
+										</div>
+										<div class="flex flex-col">
+											<label for="posterPath" class="block text-sm font-medium text-gray-700">Poster</label>
+											<input wire:model="posterPath" id="posterPath" type="text" autocomplete="given-posterPath"
+												class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+											@error('posterPath')
+												<span class="text-red-500 text-sm">{{ $message }}</span>
+											@enderror
+										</div>
+										<div class="flex flex-col">
+											<label for="backdropPath" class="block text-sm font-medium text-gray-700">Backdrop</label>
+											<input wire:model="backdropPath" id="backdropPath" type="text" autocomplete="given-backdropPath"
+												class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+											@error('backdropPath')
+												<span class="text-red-500 text-sm">{{ $message }}</span>
+											@enderror
+										</div>
+										<div class="flex flex-col">
+											<label for="overview" class="block text-sm font-medium text-gray-700">Overview</label>
+											<input wire:model="overview" id="overview" type="text" autocomplete="given-overview"
+												class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+											@error('overview')
+												<span class="text-red-500 text-sm">{{ $message }}</span>
+											@enderror
+										</div>
+										<div class="flex flex-col">
+											<div class="flex items-center px-2 py-6">
+												<input wire:model="isPublic" id="isPublic" name="isPublic" type="checkbox"
+													class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+												<label for="isPublic" class="ml-2 block text-sm text-gray-900"> Published </label>
+											</div>
+										</div>
 									</div>
+		
 								</div>
-							</div>
-
+							</form>
 						</div>
-					</form>
+						<div class="p-4 space-x-2" x-show="tab === 1">
+							<livewire:movie-tag/>
+						</div>
+					</div>
 				</div>
 			</div>
 
