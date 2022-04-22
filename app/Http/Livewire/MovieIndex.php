@@ -41,6 +41,8 @@ class MovieIndex extends Component
     public $showTrailer = false;
     public $showMovieDetailModal = false;
 
+    protected $listeners = ['tagAdded' => 'tagAdded','tagDetached' => 'tagDetached'];
+
     protected $rules = [
         'title'        => 'required',
         'runtime'      => 'required',
@@ -200,6 +202,18 @@ class MovieIndex extends Component
         $this->movie = Movie::findOrFail($movieId);
         $this->showMovieDetailModal = true;
         $this->movieId = $movieId;
+    }
+
+    public function tagAdded()
+    {
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Tag has been added successfully!']);
+        $this->reset();
+    }
+
+    public function tagDetached()
+    {
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Tag has been detached successfully!']);
+        $this->reset();
     }
 
     public function render()
