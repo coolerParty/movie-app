@@ -125,13 +125,13 @@
 				<tbody class="bg-white">
 					@forelse ($movies as $table_movie)
 						<tr class="text-gray-700">
-							<td class="px-4 py-3 border">
+							<td class="px-4 py-3 text-ms border">
 								{{ $table_movie->title }}
 							</td>
-							<td class="px-4 py-3 border">
+							<td class="px-4 py-3 text-ms border">
 								{{ $table_movie->rating }}
 							</td>
-							<td class="px-4 py-3 border">
+							<td class="px-4 py-3 text-ms border">
 								{{ $table_movie->visits }}
 							</td>
 							<td class="px-4 py-3 text-ms font-semibold border">
@@ -154,11 +154,11 @@
 									alt="">
 							</td>
 							<td class="px-4 py-3 text-sm border">
-								<x-m-button wire:click="showTrailerModal({{ $table_movie->id }})" class="bg-indigo-500 hover:bg-indigo-700 text-white">
+								<x-m-button wire:click="showTrailerModal({{ $table_movie->id }})" class="bg-indigo-500 hover:bg-indigo-700 text-white text-xs">
 									Trailer</x-m-button>
-								<x-m-button wire:click="showEditModal({{ $table_movie->id }})" class="bg-green-600 hover:bg-green-500 text-white">
+								<x-m-button wire:click="showEditModal({{ $table_movie->id }})" class="bg-green-600 hover:bg-green-500 text-white text-xs">
 									Edit</x-m-button>
-								<x-m-button wire:click="deleteMovie({{ $table_movie->id }})" class="bg-red-500 hover:bg-red-700 text-white">Delete
+								<x-m-button wire:click="deleteMovie({{ $table_movie->id }})" class="bg-red-500 hover:bg-red-700 text-white text-xs">Delete
 								</x-m-button>
 							</td>
 						</tr>
@@ -180,6 +180,7 @@
 			</div>
 		</div>
 	</div>
+	{{-- Show-Movie-Modal Start --}}
 	<x-jet-dialog-modal wire:model="showMovieModal">
 		<x-slot name="title">Update Movie</x-slot>
 		<x-slot name="content">
@@ -272,7 +273,8 @@
 			<x-m-button wire:click="updateMovie">Update</x-m-button>
 		</x-slot>
 	</x-jet-dialog-modal>
-
+	{{-- Show-Movie-Modal End --}}
+	{{-- Show-Trailer-Modal Start --}}
 	<x-jet-dialog-modal wire:model="showTrailer">
 		<x-slot name="title">Trailer Movie</x-slot>
 		<x-slot name="content">
@@ -287,4 +289,5 @@
 			<x-m-button wire:click="addTrailer">Add Trailer</x-m-button>
 		</x-slot>
 	</x-jet-dialog-modal>
+	{{-- Show-Trailer-Modal End --}}
 </section>
