@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Movie;
 use App\Models\Genre;
+use App\Models\TrailerUrl;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\HTTP;
 use Illuminate\Support\Str;
@@ -38,6 +39,7 @@ class MovieIndex extends Component
 
     public $showMovieModal = false;
     public $showTrailer = false;
+    public $showMovieDetailModal = false;
 
     protected $rules = [
         'title'        => 'required',
@@ -183,6 +185,21 @@ class MovieIndex extends Component
         ]);
         $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Trailer has been added successfully!']);
         $this->reset();
+    }
+
+    public function deleteTrailer($trailerId)
+    {
+        $trailer = TrailerUrl::findOrFail($trailerId);
+        $trailer->delete();
+        $this->dispatchBrowserEvent('banner-message', ['style' => 'success', 'message' => 'Trailer has been deleted successfully!']);
+        $this->reset();
+    }
+
+    public function showMovieDetail($movieId)
+    {
+        $this->movie = Movie::findOrFail($movieId);
+        $this->showMovieDetailModal = true;
+        $this->movieId = $movieId;
     }
 
     public function render()
